@@ -16,7 +16,7 @@ class FileUtils {
             return sdDir.toString()
         }
 
-        fun getFileName(fileAbsolutePath: String): ArrayList<File> {
+        fun getFileNames(fileAbsolutePath: String): ArrayList<File> {
             val vecFile = ArrayList<File>()
             val file = File(fileAbsolutePath)
             val subFile = file.listFiles()

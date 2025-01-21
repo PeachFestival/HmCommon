@@ -43,9 +43,9 @@ class UartBag(
 
                 // 检查是否有完整的数据包
                 val data = outputStream.toByteArray()
-                if (data.size >= 4 && data[0] == 0xAA.toByte()) {
-                    val len = byteToInt(data[2], data[3]) // 获取数据包长度
-                    val packetSize = len + offset // 计算完整数据包的大小
+                if (data.size >= 4 && data[0] == 0xAA.toByte()&& data[1] == 0x55.toByte()) {
+
+                    val packetSize = 4104 // 计算完整数据包的大小
 
                     if (data.size >= packetSize) {
                         // 提取完整的数据包

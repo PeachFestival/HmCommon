@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.hengmei.hm_common.mmkv.DataRepository
 import com.hengmei.hm_common.utils.CommonLibInit
+import com.hengmei.hm_common.utils.FileUtils
 import com.hengmei.testdemo.ui.theme.TestDemoTheme
 
 class MainActivity : ComponentActivity() {
@@ -30,6 +31,7 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+        var sdPath = FileUtils.getSDPath()
     }
 }
 

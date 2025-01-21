@@ -23,6 +23,7 @@ public class Logistic {
 	public static final String[] fitList = { "Straight Line", "2nd Degree Polynomial", "3rd Degree Polynomial",
 			"4th Degree Polynomial", "Exponential", "Power", "Log", "Rodbard", "Gamma Variate", "y = a+b*ln(x-c)",
 			"Rodbard (NIH Image)", "Exponential with Offset", "Gaussian", "Exponential Recovery" };
+//	位置是 从0 开始
 	public static final String[] fList = { "y = a+bx", "y = a+bx+cx^2", "y = a+bx+cx^2+dx^3", "y = a+bx+cx^2+dx^3+ex^4",
 			"y = a*exp(bx)", "y = ax^b", "y = a*ln(bx)", "y = d+(a-d)/(1+(x/c)^b)", "y = a*(x-b)^c*exp(-(x-b)/d)",
 			"y = a+b*ln(x-c)", "y = d+(a-d)/(1+(x/c)^b)", "y = a*exp(-bx) + c",
