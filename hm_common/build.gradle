@@ -35,38 +35,73 @@ android {
 
 dependencies {
         // AndroidX 核心库
-        implementation 'androidx.core:core-ktx:1.10.1'
-        implementation 'androidx.appcompat:appcompat:1.6.1'
-        implementation 'com.google.android.material:material:1.9.0'
-        implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-        implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.6.1'
-        implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1'
-        implementation 'androidx.navigation:navigation-fragment-ktx:2.7.1'
-        implementation 'androidx.navigation:navigation-ui-ktx:2.7.1'
-        implementation 'androidx.lifecycle:lifecycle-common:2.6.1'
+    api 'androidx.core:core-ktx:1.10.1'
+    api 'androidx.appcompat:appcompat:1.6.1'
+    api 'com.google.android.material:material:1.9.0'
+    api 'androidx.constraintlayout:constraintlayout:2.1.4'
+    api 'androidx.lifecycle:lifecycle-livedata-ktx:2.6.1'
+    api 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1'
+    api 'androidx.navigation:navigation-fragment-ktx:2.7.1'
+    api 'androidx.navigation:navigation-ui-ktx:2.7.1'
+    api 'androidx.lifecycle:lifecycle-common:2.6.1'
 
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
         // 网络请求
-        implementation 'com.squareup.retrofit2:retrofit:2.11.0'
-        implementation 'com.squareup.retrofit2:converter-gson:2.11.0'
-        implementation 'com.squareup.okhttp3:logging-interceptor:4.11.0'
+    api 'com.squareup.retrofit2:retrofit:2.11.0'
+    api 'com.squareup.retrofit2:converter-gson:2.11.0'
+    api 'com.squareup.okhttp3:logging-interceptor:4.11.0'
 
         // JSON 解析
-        implementation 'com.google.code.gson:gson:2.10.1'
+    api 'com.google.code.gson:gson:2.10.1'
 
-    implementation 'com.orhanobut:logger:2.2.0'
+    api 'com.orhanobut:logger:2.2.0'
 
 //  port 串口 接口处理
-    implementation 'io.github.xmaihh:serialport:2.1.1'
+    api 'io.github.xmaihh:serialport:2.1.1'
     //Image Loading
-    implementation("io.coil-kt:coil:2.5.0")
-    implementation("io.coil-kt:coil-video:2.5.0")
+    api("io.coil-kt:coil:2.5.0")
+    api("io.coil-kt:coil-video:2.5.0")
 
 //    MMKV 相关KTX
     api "com.tencent:mmkv-static:1.2.14"
-    implementation "androidx.startup:startup-runtime:1.1.1"
+    api "androidx.startup:startup-runtime:1.1.1"
 
 }
+
+apply plugin: 'maven-publish'
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = 'com.hm.lib'
+                artifactId = 'CommonLib'
+                version = '1.0.0'
+            }
+        }
+    }
+}
+
+//publishing {
+//    // 配置maven 仓库
+//    repositories { RepositoryHandler handler ->
+//        handler.mavenLocal()  // 发布到默认的 本地maven 仓库 ，路径： USER_HOME/.m2/repository/
+//    }
+//    // 配置发布产物
+//    publications { PublicationContainer publication ->
+//        // 名称可以随便定义
+//        maven(MavenPublication) {// 容器可配置的信息 MavenPublication
+//            // 依赖 bundleReleaseAar 任务，并上传其产出的aar
+//            afterEvaluate { artifact(tasks.getByName("bundleReleaseAar")) } // 方式一：生成aar包
+//            // artifact "$buildDir/outputs/aar/${project.name}-release.aar" // 方式二：指定生成的aar路径
+//            groupId = "com.hm.lib"
+//            artifactId = "CommonLib"
+//            version = "2.0.0"
+////            from components.release
+//        }
+//    }
+//}
