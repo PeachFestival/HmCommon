@@ -12,12 +12,16 @@ publishing {
         // 名称可以随便定义
         maven(MavenPublication) {// 容器可配置的信息 MavenPublication
             // 依赖 bundleReleaseAar 任务，并上传其产出的aar
-            afterEvaluate { artifact(tasks.getByName("bundleReleaseAar")) } // 方式一：生成aar包
+//            afterEvaluate { artifact(tasks.getByName("bundleReleaseAar")) } // 方式一：生成aar包
             // artifact "$buildDir/outputs/aar/${project.name}-release.aar" // 方式二：指定生成的aar路径
             groupId = "com.hm.lib"
             artifactId = "CommonLib"
-            version = "1.0.0"
+            version = "1.0.1"
 //            from components.release
+            afterEvaluate { // 在所有的配置都完成之后执行
+                // 从当前 module 的 release 包中发布
+                from(components["release"])
+            }
         }
     }
 }
