@@ -64,13 +64,11 @@ dependencies {
     androidTestImplementation libs.androidx.ui.test.junit4
     debugImplementation libs.androidx.ui.tooling
     debugImplementation libs.androidx.ui.test.manifest
-
-    implementation project(':hm_common')
     implementation "androidx.startup:startup-runtime:1.1.1"
 
+    implementation project(':hm_common')
+    //    implementation "com.hm.lib:CommonLib:1.0.1"
 
-
-//    implementation "com.hm.lib:CommonLib:1.0.1"
 
 //    api 'androidx.core:core-ktx:1.10.1'
 //    api 'androidx.appcompat:appcompat:1.6.1'
