@@ -1,5 +1,71 @@
 HM_COMMON
 
+引用
+方式一：使用本地mavenLocal仓库  需要clone项目到本地并执行publish脚本
+
+
+1.项目build.gradle文件添加
+```groovy
+repositories {
+    mavenLocal()
+}
+```
+
+2.app下build.gradle文件添加
+```groovy
+implementation "com.hm.lib:CommonLib:lastviersion"
+```
+
+3.需要将lib库中的第三方引用全部添加到app下build.gradle
+```groovy
+api 'androidx.core:core-ktx:1.10.1'
+api 'androidx.appcompat:appcompat:1.6.1'
+api 'com.google.android.material:material:1.9.0'
+api 'androidx.constraintlayout:constraintlayout:2.1.4'
+api 'androidx.lifecycle:lifecycle-livedata-ktx:2.6.1'
+api 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1'
+api 'androidx.navigation:navigation-fragment-ktx:2.7.1'
+api 'androidx.navigation:navigation-ui-ktx:2.7.1'
+api 'androidx.lifecycle:lifecycle-common:2.6.1'
+
+testImplementation 'junit:junit:4.13.2'
+androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+// 网络请求
+api 'com.squareup.retrofit2:retrofit:2.11.0'
+api 'com.squareup.retrofit2:converter-gson:2.11.0'
+api 'com.squareup.okhttp3:logging-interceptor:4.11.0'
+
+// JSON 解析
+api 'com.google.code.gson:gson:2.10.1'
+
+api 'com.orhanobut:logger:2.2.0'
+
+//  port 串口 接口处理
+api 'io.github.xmaihh:serialport:2.1.1'
+//Image Loading
+api("io.coil-kt:coil:2.5.0")
+api("io.coil-kt:coil-video:2.5.0")
+
+//    MMKV 相关KTX
+api "com.tencent:mmkv-static:1.2.14"
+api "androidx.startup:startup-runtime:1.1.1"
+```
+
+方式二：使用远程github仓库
+
+
+1.项目build.gradle文件添加
+```groovy
+mavenCentral()
+maven { url 'https://jitpack.io' }
+```
+
+2.app下build.gradle文件添加
+```groovy
+implementation 'com.github.PeachFestival:HmCommon:Tag'
+```
+
 使用
 
 1、全局初始化,在APP中Application类中添加初始化信息。
