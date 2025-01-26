@@ -2,6 +2,9 @@ plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
 }
+
+apply from: 'build-publish.gradle'
+
 android {
     namespace 'com.hengmei.hm_common'
     compileSdk 34
@@ -70,38 +73,3 @@ dependencies {
     api "androidx.startup:startup-runtime:1.1.1"
 
 }
-
-apply plugin: 'maven-publish'
-
-afterEvaluate {
-    publishing {
-        publications {
-            release(MavenPublication) {
-                from components.release
-                groupId = 'com.hm.lib'
-                artifactId = 'CommonLib'
-                version = '1.0.0'
-            }
-        }
-    }
-}
-
-//publishing {
-//    // 配置maven 仓库
-//    repositories { RepositoryHandler handler ->
-//        handler.mavenLocal()  // 发布到默认的 本地maven 仓库 ，路径： USER_HOME/.m2/repository/
-//    }
-//    // 配置发布产物
-//    publications { PublicationContainer publication ->
-//        // 名称可以随便定义
-//        maven(MavenPublication) {// 容器可配置的信息 MavenPublication
-//            // 依赖 bundleReleaseAar 任务，并上传其产出的aar
-//            afterEvaluate { artifact(tasks.getByName("bundleReleaseAar")) } // 方式一：生成aar包
-//            // artifact "$buildDir/outputs/aar/${project.name}-release.aar" // 方式二：指定生成的aar路径
-//            groupId = "com.hm.lib"
-//            artifactId = "CommonLib"
-//            version = "2.0.0"
-////            from components.release
-//        }
-//    }
-//}
