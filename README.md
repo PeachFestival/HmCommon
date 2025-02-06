@@ -155,3 +155,24 @@ Logistic 拟合多次曲线，logisticAB ，logisticABC，logisticABCD。
 ```
 
 NumberUtils 对应 加减乘除操作
+
+
+
+//仪器更新
+/**
+* @param mUrl 请求地址
+* @param updateApk 更新包的标识
+* @param acCode 仪器编号
+* @param title 更新标题
+* @param context activity
+* @param callback 回调函数
+*/
+*  UpdateUtils.getUpdateUrl("http://manage.hengmeierp.com/api/project/produceApkRela/getByApp","e4fec07c-8917-44ca-99f5-582daa869f02","eb477b2f48026fda","更新", activity!!, callback = { isUpdate, message ->
+   if (isUpdate!!) {
+   // 调用回调返回错误信息
+   println("开始更新: $message")
+   } else {
+   // 调用回调返回响应数据
+   println("更新失败: $message")
+   }
+   })
