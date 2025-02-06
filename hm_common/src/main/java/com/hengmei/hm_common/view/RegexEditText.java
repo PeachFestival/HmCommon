@@ -18,6 +18,8 @@ import java.util.regex.Pattern;
  */
 public class RegexEditText extends AppCompatEditText implements InputFilter {
 
+
+    ///测试
     /** 手机号（只能以 1 开头） */
     public static final String REGEX_MOBILE = "[1]\\d{0,10}";
     /** 中文（普通的中文字符） */
