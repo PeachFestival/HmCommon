@@ -93,6 +93,91 @@ class LogisticUtils {
                 "valueR" to r2Value.toDouble()
             )
         }
+
+
+        /**
+         * 公式"y = a+bx"
+         * @param x x值
+         * @param a a值
+         * @param b b值
+         * @param  num 保留的小数位数
+         * @return 返回计算后的结果
+         * */
+        fun getLogisticValueAB(
+            x: Double,
+            a: Double,
+            b: Double,
+            num: Int
+        ): Double {
+            val multiplicationCalculation =    NumberUtils.multiplicationStr(x.toString(), b.toString(), 9)
+            val additionCalculation = NumberUtils.additionStr(a.toString(), multiplicationCalculation)
+            return NumberUtils.divisionStr(additionCalculation, "1", num).toDouble()
+        }
+        /**
+         * 公式 "y = a+bx+cx^2"
+         * @param x x值
+         * @param a a值
+         * @param b b值
+         * @param c c值
+         * @param  num 保留的小数位数
+         * @return 返回计算后的结果
+         *
+         */
+        fun getLogisticValueABC(
+            x: Double,
+            a: Double,
+            b: Double,
+            c: Double,
+            num: Int
+        ): Double {
+            val multiplicationCalculation =    NumberUtils.multiplicationStr(x.toString(), b.toString(), 9)
+            val x2 =    NumberUtils.multiplicationStr(x.toString(),x.toString(), 9)
+            val multiplicationCalculation2 =    NumberUtils.multiplicationStr(x2, c.toString(), 9)
+            val additionCalculation = NumberUtils.additionStr(a.toString(), multiplicationCalculation)
+            val additionCalculation2 =NumberUtils.additionStr(additionCalculation, multiplicationCalculation2)
+            return NumberUtils.divisionStr(additionCalculation2, "1", num).toDouble()
+        }
+        /**
+         * 公式 "y = a + bx + cx^2 + dx^3"
+         * @param x x值
+         * @param a a值
+         * @param b b值
+         * @param c c值
+         * @param d d值
+         * @param num 保留的小数位数
+         * @return 返回计算后的结果
+         */
+        fun getLogisticValueABCD(
+            x: Double,
+            a: Double,
+            b: Double,
+            c: Double,
+            d: Double,
+            num: Int
+        ): Double {
+            // 计算 bx
+            val bx = NumberUtils.multiplicationStr(x.toString(), b.toString(), 9)
+
+            // 计算 x^2
+            val x2 = NumberUtils.multiplicationStr(x.toString(), x.toString(), 9)
+
+            // 计算 cx^2
+            val cx2 = NumberUtils.multiplicationStr(x2, c.toString(), 9)
+
+            // 计算 x^3
+            val x3 = NumberUtils.multiplicationStr(x2, x.toString(), 9)
+
+            // 计算 dx^3
+            val dx3 = NumberUtils.multiplicationStr(x3, d.toString(), 9)
+
+            // 计算 a + bx + cx^2 + dx^3
+            val addition1 = NumberUtils.additionStr(a.toString(), bx)
+            val addition2 = NumberUtils.additionStr(addition1, cx2)
+            val addition3 = NumberUtils.additionStr(addition2, dx3)
+
+            // 返回结果，保留指定小数位数
+            return NumberUtils.divisionStr(addition3, "1", num).toDouble()
+        }
     }
 
 }

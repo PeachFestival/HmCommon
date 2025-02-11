@@ -47,8 +47,21 @@ fun MMKVOwner.mmkvDouble(default: Double = 0.0) =
 fun MMKVOwner.mmkvString() =
   MMKVProperty({ kv.decodeString(it) }, { kv.encode(first, second) })
 
+// 只做初始赋值，值改变后后期为空便为空
+fun MMKVOwner.mmkvStringFirst(first: String) =
+  MMKVProperty({ kv.decodeString(it) ?: first }, { kv.encode(first, second) })
+
+// 值改变后后期为空便为default的值
 fun MMKVOwner.mmkvString(default: String) =
-  MMKVProperty({ kv.decodeString(it) ?: default }, { kv.encode(first, second) })
+  MMKVProperty(
+    decode = { key ->
+      val value = kv.decodeString(key)
+      if (value.isNullOrEmpty()) default else value
+    },
+    encode = {
+      kv.encode(first, second)
+    }
+  )
 
 fun MMKVOwner.mmkvStringSet() =
   MMKVProperty({ kv.decodeStringSet(it) }, { kv.encode(first, second) })

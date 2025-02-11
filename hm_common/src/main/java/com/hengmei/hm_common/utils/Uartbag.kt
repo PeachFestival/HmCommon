@@ -71,49 +71,4 @@ class UartBag(
 
         return null
     }
-/*
-    override fun execute(inStr: InputStream): ByteArray? {
-
-        try {
-
-            var endArray = byteArrayOf()
-
-            val available: Int = inStr.available()
-            if (available > 0) {
-                val buffer = ByteArray(available)
-                val size: Int = inStr.read(buffer)
-                if (size > 0) {
-
-                    var array = buffer
-                    if(array[0] == 0xAA.toByte()){
-
-                        var len = byteToInt(array[2],array[3])
-                        var arrayLength = len + offset
-                        if(arrayLength <= size){
-
-                            array = array.copyOfRange(0,arrayLength)
-                            Log.d("uartBag", "array: 正常"+array.toPrintString())
-                            return array
-                        }else{
-                            endArray = array.copyOfRange(arrayLength,size)
-                            if(endArray.isNotEmpty()){
-                                Log.d("uartBag", "endArray: "+endArray.toPrintString())
-                            }
-                            return endArray
-                        }
-                    }else{
-                        Log.d("uartBag", "array: 异常情况"+buffer.toPrintString())
-
-                        return buffer
-                    }
-                }
-            } else {
-                SystemClock.sleep(50L)
-            }
-        } catch (var5: IOException) {
-            var5.printStackTrace()
-        }
-
-        return null
-    }*/
 }

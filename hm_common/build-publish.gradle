@@ -16,7 +16,7 @@ publishing {
             // artifact "$buildDir/outputs/aar/${project.name}-release.aar" // 方式二：指定生成的aar路径
             groupId = "com.hm.lib"
             artifactId = "CommonLib"
-            version = "1.0.5"
+            version = "1.1.0"
 //            from components.release
             afterEvaluate { // 在所有的配置都完成之后执行
                 // 从当前 module 的 release 包中发布

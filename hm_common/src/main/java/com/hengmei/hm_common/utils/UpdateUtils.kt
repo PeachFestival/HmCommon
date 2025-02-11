@@ -3,12 +3,14 @@ package com.hengmei.hm_common.utils
 import android.app.Activity
 import android.text.TextUtils
 import com.allenliu.versionchecklib.core.http.HttpRequestMethod
+import com.allenliu.versionchecklib.utils.AppUtils
 import com.allenliu.versionchecklib.v2.AllenVersionChecker
 import com.allenliu.versionchecklib.v2.builder.DownloadBuilder
 import com.allenliu.versionchecklib.v2.builder.UIData
 import com.allenliu.versionchecklib.v2.callback.RequestVersionListener
 import com.google.gson.Gson
 import com.hengmei.hm_common.Bean.ApiResponse
+import org.w3c.dom.Text
 
 
 object UpdateUtils {
@@ -30,8 +32,12 @@ object UpdateUtils {
         context: Activity,
         callback: (Boolean?,String?) -> Unit  // 回调函数
     ) {
+        var devId = acCode
+        if(TextUtils.isEmpty(acCode)){
+            devId = getAndroidId(context)
+        }
         val gson = Gson()
-        val url = "$mUrl?updateAPK=$updateApk&acCode=$acCode"
+        val url = "$mUrl?updateAPK=$updateApk&acCode=$devId"
         AllenVersionChecker
             .getInstance()
             .requestVersion()

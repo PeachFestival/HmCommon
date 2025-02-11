@@ -8,10 +8,10 @@ object NumberUtils {
     private const val ZERO = "0"
 
 //    转换3 位 小数
-    fun formatStr(value: Double): String {
+    fun formatStr(value: Double, num: Int): String {
         return try {
             val bd = BigDecimal.valueOf(value)
-            bd.setScale(3, RoundingMode.DOWN).toString()
+            bd.setScale(num, RoundingMode.DOWN).toString()
         } catch (e: NumberFormatException) {
             ZERO
         }
@@ -64,6 +64,7 @@ object NumberUtils {
 
     /**
      * 除法保留小数位数，参数为空不运算
+     *
      */
     fun divisionStr(str1: String?, str2: String?, num: Int): String {
         // 去除后置0
