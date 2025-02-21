@@ -166,13 +166,13 @@
 
 ### 3.11 仪器 WIFI 连接操作
 
-#### 3.11.1 加入对应权限
+#### &emsp;3.11.1 加入对应权限
 
 ```html
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 ```
 
-#### 3.11.2 由于权限直接请求无法请求成功，需要主动让用户从设置授予权限，以下是跳转设置代码，建议放到 setting界面 onStart() 或者 onResume() 方法体中。因为要调用startMaskService()来隐藏顶部悬浮窗，也可以手动调用 WifiSettingUtils.startMaskService（）来关闭顶部悬浮窗
+#### &emsp;3.11.2 由于权限直接请求无法请求成功，需要主动让用户从设置授予权限，以下是跳转设置代码，建议放到 setting界面 onStart() 或者 onResume() 方法体中。因为要调用startMaskService()来隐藏顶部悬浮窗，也可以手动调用 WifiSettingUtils.startMaskService（）来关闭顶部悬浮窗
 
 ```java
     // 检查应用是否有允许在上层权限
@@ -182,7 +182,7 @@
     }
 ```
 
-#### 3.11.3 权限获取成功后，需要在清单文件配置service。
+#### &emsp;3.11.3 权限获取成功后，需要在清单文件配置service。
 
 ```html
  <service 
@@ -198,7 +198,7 @@
 </service>
 ```
 
-#### 3.11.4 @xml/accessibilityservice 文件代码为以下 common_hint 是对应无障碍服务里面提示文字，随便输入即可,用户不可见。
+#### &emsp;3.11.4 @xml/accessibilityservice 文件代码为以下 common_hint 是对应无障碍服务里面提示文字，随便输入即可,用户不可见。
 
 ```html
     <?xml version="1.0" encoding="utf-8"?>
@@ -208,7 +208,7 @@
         android:description="@string/common_hint"/>
 ```
 
-#### 3.11.5 最后调用执行 ,如果是第一次安装或者 覆盖安装，会跳转设置，要求用户开启无障碍选项
+#### &emsp;3.11.5 最后调用执行 ,如果是第一次安装或者 覆盖安装，会跳转设置，要求用户开启无障碍选项
 
 ```java
     WifiSettingUtils.setWifi(context,backStr,confirmStr)
