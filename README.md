@@ -214,14 +214,14 @@
     WifiSettingUtils.setWifi(context,backStr,confirmStr)
 ```
 
-### 3.12 多层级展开recyclerview
+### 3.12 多层级展开recyclerview 支持无限层级
 ```java
-        //0级列表
+        //0级列表测试数据
         val levelZero = mutableListOf<ExtendListData>()
         levelZero.add(ExtendListData(level = 0,name = "零级0"))
         levelZero.add(ExtendListData(level = 0,name = "零级1"))
 
-        //1级列表
+        //1级列表测试数据
         val level0One = mutableListOf<ExtendListData>()
         level0One.add(ExtendListData(level = 1,name = "一级0"))
         level0One.add(ExtendListData(level = 1,name = "一级1"))
@@ -229,7 +229,7 @@
         level1One.add(ExtendListData(level = 1,name = "一级0"))
         level1One.add(ExtendListData(level = 1,name = "一级1"))
 
-        //2级别列表
+        //2级列表测试数据
         val level00Two = mutableListOf<ExtendListData>()
         level00Two.add(ExtendListData(level = 2,name = "二级0"))
         level00Two.add(ExtendListData(level = 2,name = "二级1"))
@@ -242,7 +242,12 @@
         val level11Two = mutableListOf<ExtendListData>()
         level11Two.add(ExtendListData(level = 2,name = "二级0", data = MyData()))
         level11Two.add(ExtendListData(level = 2,name = "二级1", data = MyData()))
+        
+        //...n级列表测试数据
+        //......
 
+        
+        //recyclerview使用ExtendListAdapter即可
         binding.rvView.layoutManager = LinearLayoutManager(this)
         binding.rvView.adapter =
             ExtendListAdapter(this)
