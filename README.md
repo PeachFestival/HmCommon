@@ -214,3 +214,66 @@ override fun onResume() {
 ```java
 WifiSettingUtils.setWifi(context,backStr,confirmStr)
 ```
+
+多层级展开recyclerview
+```java
+        //0级列表
+        val levelZero = mutableListOf<ExtendListData>()
+        levelZero.add(ExtendListData(level = 0,name = "零级0"))
+        levelZero.add(ExtendListData(level = 0,name = "零级1"))
+
+        //1级列表
+        val level0One = mutableListOf<ExtendListData>()
+        level0One.add(ExtendListData(level = 1,name = "一级0"))
+        level0One.add(ExtendListData(level = 1,name = "一级1"))
+        val level1One = mutableListOf<ExtendListData>()
+        level1One.add(ExtendListData(level = 1,name = "一级0"))
+        level1One.add(ExtendListData(level = 1,name = "一级1"))
+
+        //2级别列表
+        val level00Two = mutableListOf<ExtendListData>()
+        level00Two.add(ExtendListData(level = 2,name = "二级0"))
+        level00Two.add(ExtendListData(level = 2,name = "二级1"))
+        val level01Two = mutableListOf<ExtendListData>()
+        level01Two.add(ExtendListData(level = 2,name = "二级0"))
+        level01Two.add(ExtendListData(level = 2,name = "二级1"))
+        val level10Two = mutableListOf<ExtendListData>()
+        level10Two.add(ExtendListData(level = 2,name = "二级0"))
+        level10Two.add(ExtendListData(level = 2,name = "二级1"))
+        val level11Two = mutableListOf<ExtendListData>()
+        level11Two.add(ExtendListData(level = 2,name = "二级0", data = MyData()))
+        level11Two.add(ExtendListData(level = 2,name = "二级1", data = MyData()))
+
+        binding.rvView.layoutManager = LinearLayoutManager(this)
+        binding.rvView.adapter =
+            ExtendListAdapter(this)
+                //0级
+                .addLevel0Data(levelZero)
+                //1级
+                .addLevelOtherData(levelZero[0], level0One)
+                .addLevelOtherData(levelZero[1], level1One)
+                //2级
+                .addLevelOtherData(level0One[0], level00Two)
+                .addLevelOtherData(level0One[1], level01Two)
+                .addLevelOtherData(level1One[0], level10Two)
+                //自定义UI和点击事件
+                .addLevelOtherData(level1One[1], level11Two, object : OnBindExtendView(R.layout.item_extend_view) {
+                    override fun onViewBind(view: View, extendListData: ExtendListData) {//UI绑定
+                        val tvText = view.findViewById<TextView>(R.id.tv_name)
+                        tvText.text = extendListData.name
+                        tvText.setOnClickListener{
+                            //do nothing
+                        }
+                    }
+
+                    override fun onViewClick(view: View, extendListData: ExtendListData) {//UI点击
+                        val myData : MyData = extendListData.data as MyData
+                        if (extendListData.isExtend) {//展开状态
+                            //do nothing
+                        } else {//收起状态
+                            //do nothing
+                        }
+                    }
+                })
+                .build()
+```

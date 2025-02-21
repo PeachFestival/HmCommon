@@ -74,4 +74,8 @@ dependencies {
 //  版本更新
     api 'com.github.AlexLiuSheng:CheckVersionLib:2.4.2'
 
+    api "androidx.recyclerview:recyclerview:1.2.1"
+    //adapter
+    api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.6'
+
 }
