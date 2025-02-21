@@ -12,7 +12,7 @@
 ### 1.2 app下build.gradle文件添加
 
 ```groovy
-    implementation 'com.github.PeachFestival:HmCommon:version_code'//version_code为最新tag 当前最新版本1.1.2
+    implementation 'com.github.PeachFestival:HmCommon:version_code'//version_code为最新tag 当前最新版本1.1.3
 ```
 
 ---
@@ -276,3 +276,14 @@
                 })
                 .build()
 ```
+
+### 3.13 闪退日志保存到本地
+#### &emsp;3.13.1 在APP中Application类中添加 [查看 MyApplication](./app/src/main/java/com/hengmei/testdemo/MyApplication.kt)
+```java
+    CrashHandler.getInstance(applicationContext).setCrashLogDir(getCrashLogDir())//getCrashLogDir()为日志文件存储路径
+```
+
+#### &emsp;3.13.2 可在CrashHandler.java文件中添加更多需要保存到日志中的信息 方便定位错误&emsp;[查看CrashHandler](./hm_common/src/main/java/com/hengmei/hm_common/crashlog/CrashHandler.java)
+
+
+
