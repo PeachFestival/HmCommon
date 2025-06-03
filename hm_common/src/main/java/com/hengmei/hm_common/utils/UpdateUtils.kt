@@ -34,7 +34,7 @@ object UpdateUtils {
     ) {
         var devId = acCode
         if(TextUtils.isEmpty(acCode)){
-            devId = getAndroidId(context)
+            devId = getAndroidId()
         }
         val gson = Gson()
         val url = "$mUrl?updateAPK=$updateApk&acCode=$devId"

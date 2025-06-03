@@ -59,7 +59,7 @@
 ### 3.1 扩展函数
 
 ```java
-    getAndroidId(context) //获取仪器设备号
+    getAndroidId() //获取仪器设备号
     byteToInt(byte1,byte2)//无符号byte转int 
     log(str)//全局日志弹窗
 ```

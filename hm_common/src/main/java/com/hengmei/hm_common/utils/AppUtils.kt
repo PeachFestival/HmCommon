@@ -1,6 +1,7 @@
 package com.hengmei.hm_common.utils
 
 import android.content.Context
+import android.os.Build
 import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
@@ -22,6 +23,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.lang.reflect.Method
 import java.lang.reflect.ParameterizedType
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -54,10 +56,20 @@ fun AppCompatEditText.toEditString(): String {
     return this.text?.toString()?.trim() ?: ""
 }
 
-fun getAndroidId(context: Context): String {
-    return Settings.Secure.getString(
-        context.contentResolver, Settings.Secure.ANDROID_ID
-    )
+fun getAndroidId(): String {
+    var serial = ""
+    if (Build.VERSION.SDK_INT >= 28) {
+        try {
+            val c = Class.forName("android.os.SystemProperties")
+            val get: Method = c.getMethod("get", String::class.java)
+            serial = get.invoke(c, "ro.serialno") as String
+        } catch (var4: Exception) {
+            var4.printStackTrace()
+        }
+    } else {
+        serial = Build.SERIAL
+    }
+    return serial
 }
 
 //返回byte

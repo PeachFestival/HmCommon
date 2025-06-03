@@ -47,6 +47,7 @@ dependencies {
     api 'androidx.navigation:navigation-fragment-ktx:2.7.1'
     api 'androidx.navigation:navigation-ui-ktx:2.7.1'
     api 'androidx.lifecycle:lifecycle-common:2.6.1'
+    api files('libs\\zckjAPI-2.2.jar')
 
 
     testImplementation 'junit:junit:4.13.2'

@@ -7,7 +7,7 @@ object NumberUtils {
 
     private const val ZERO = "0"
 
-//    转换3 位 小数
+//    转换num 位 小数
     fun formatStr(value: Double, num: Int): String {
         return try {
             val bd = BigDecimal.valueOf(value)

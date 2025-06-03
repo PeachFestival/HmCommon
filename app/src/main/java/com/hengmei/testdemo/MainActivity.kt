@@ -61,7 +61,7 @@ class MainActivity : ComponentActivity() {
 
                         2 -> {
                             UpdateUtils.getUpdateUrl("http://manage.hengmeierp.com/api/project/produceApkRela/getByApp",
-                                "e4fec07c-8917-44ca-99f5-582daa869f02", getAndroidId(this@MainActivity)
+                                "e4fec07c-8917-44ca-99f5-582daa869f02", getAndroidId()
                                 ,"更新",
                                 activity!!, callback = { isUpdate, message ->
                                 if (isUpdate!!) {
