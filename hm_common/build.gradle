@@ -78,5 +78,6 @@ dependencies {
     api "androidx.recyclerview:recyclerview:1.2.1"
     //adapter
     api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.6'
-
+//    谷歌打印框架
+    api "androidx.print:print:1.1.0"
 }
