@@ -290,5 +290,21 @@
 
 #### &emsp;3.13.2 可在CrashHandler.java文件中添加更多需要保存到日志中的信息 方便定位错误&emsp;[查看CrashHandler](./hm_common/src/main/java/com/hengmei/hm_common/crashlog/CrashHandler.java)
 
+### 3.14 获取后台动态密码
+
+```java
+    /**
+    - @param context activity
+    - @param callback 回调函数
+      */
+    BackagePasswordUtils.getBackagePassword(this,callback = { isSuccess, message ->
+    if (isSuccess) {
+        longToast("获取到的后台密码为：$message")
+    } else {
+        longToast(message)
+    }
+})
+```
+
 
 

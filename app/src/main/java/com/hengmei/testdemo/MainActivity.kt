@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import com.dylanc.longan.activity
 import com.dylanc.longan.longToast
 import com.hengmei.hm_common.mmkv.DataRepository
+import com.hengmei.hm_common.utils.BackagePasswordUtils
 import com.hengmei.hm_common.utils.UpdateUtils
 import com.hengmei.hm_common.utils.WifiSettingUtils
 import com.hengmei.hm_common.utils.getAndroidId
@@ -61,6 +62,15 @@ class MainActivity : ComponentActivity() {
 
                             startActivity(Intent(this, TestActivity::class.java))
                         }
+                        4-> {
+                            BackagePasswordUtils.getBackagePassword(this,callback = { isSuccess, message ->
+                                if (isSuccess) {
+                                    longToast("获取到的后台密码为：$message")
+                                } else {
+                                    longToast(message)
+                                }
+                            })
+                        }
                     }
             }
         }
@@ -73,7 +83,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun ButtonList(onButtonClick: (Int) -> Unit) { // 接收点击处理函数作为参数
     val buttonLabels = remember {
-        mutableStateListOf("悬浮窗权限", "打开WIFI设置", "应用更新", "打印界面"
+        mutableStateListOf("悬浮窗权限", "打开WIFI设置", "应用更新", "打印界面","获取动态密码"
         )
     }
 
