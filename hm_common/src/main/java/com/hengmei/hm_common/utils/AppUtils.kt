@@ -1,6 +1,8 @@
 package com.hengmei.hm_common.utils
 
 import android.content.Context
+import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
 import android.os.Build
 import android.provider.Settings
 import android.view.LayoutInflater
@@ -91,6 +93,21 @@ fun formatDateToSecond(date: Date): String {
 fun formatDateToDay(date: Date): String {
     val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.CHINA)
     return dateFormat.format(date)
+}
+
+fun getVersionCode(sContext: Context): Int {
+    return try {
+        val packageInfo: PackageInfo =
+            sContext.getPackageManager()
+                .getPackageInfo(
+                    sContext.getPackageName(),
+                    0
+                )
+        packageInfo.versionCode
+    } catch (e: PackageManager.NameNotFoundException) {
+        e.printStackTrace()
+        0 // 默认值
+    }
 }
 
 fun formatDateToHour(date: Date): String {
@@ -249,7 +266,7 @@ fun postValue(
     isSticky: Boolean = false,
     dispatcher: CoroutineDispatcher = Dispatchers.Main.immediate,
 ) {
-    log("FlowBus:send_${Thread.currentThread().name}_${Gson().toJson(event)}")
+//    log("FlowBus:send_${Thread.currentThread().name}_${Gson().toJson(event)}")
     ApplicationScopeViewModelProvider
         .getApplicationScopeViewModel(FlowBus::class.java)
         .viewModelScope

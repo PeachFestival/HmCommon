@@ -22,7 +22,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.dylanc.longan.activity
 import com.dylanc.longan.longToast
-import com.hengmei.hm_common.mmkv.DataRepository
 import com.hengmei.hm_common.utils.BackagePasswordUtils
 import com.hengmei.hm_common.utils.UpdateUtils
 import com.hengmei.hm_common.utils.WifiSettingUtils
@@ -33,22 +32,22 @@ class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        DataRepository.testUser = "user"
+//        DataRepository.testUser = "user"
         setContent {
             ButtonList { buttonIndex -> // 传递点击处理函数
-                    when(buttonIndex) {
-                        0 -> {
-                            WifiSettingUtils.checkUpPermission(this@MainActivity)
-                        }
-                        1 -> {
-                            WifiSettingUtils.setWifi(this@MainActivity,"返回","确认")
-                        }
+                when(buttonIndex) {
+                    0 -> {
+                        WifiSettingUtils.checkUpPermission(this@MainActivity)
+                    }
+                    1 -> {
+                        WifiSettingUtils.setWifi(this@MainActivity,"返回","确认")
+                    }
 
-                        2 -> {
-                            UpdateUtils.getUpdateUrl("http://manage.hengmeierp.com/api/project/produceApkRela/getByApp",
-                                "e4fec07c-8917-44ca-99f5-582daa869f02", getAndroidId()
-                                ,"更新",
-                                activity!!, callback = { isUpdate, message ->
+                    2 -> {
+                        UpdateUtils.getUpdateUrl("http://manage.hengmeierp.com/api/project/produceApkRela/getByApp",
+                            "e4fec07c-8917-44ca-99f5-582daa869f02", getAndroidId()
+                            ,"更新",
+                            activity!!, callback = { isUpdate, message ->
                                 if (isUpdate!!) {
                                     // 调用回调返回错误信息
                                     longToast("开始更新: $message")
@@ -57,21 +56,21 @@ class MainActivity : ComponentActivity() {
                                     longToast("更新失败: $message")
                                 }
                             })
-                        }
-                        3 -> {
-
-                            startActivity(Intent(this, TestActivity::class.java))
-                        }
-                        4-> {
-                            BackagePasswordUtils.getBackagePassword(this,callback = { isSuccess, message ->
-                                if (isSuccess) {
-                                    longToast("获取到的后台密码为：$message")
-                                } else {
-                                    longToast(message)
-                                }
-                            })
-                        }
                     }
+                    3 -> {
+
+                        startActivity(Intent(this, TestActivity::class.java))
+                    }
+                    4-> {
+                        BackagePasswordUtils.getBackagePassword(this,callback = { isSuccess, message ->
+                            if (isSuccess) {
+                                longToast("获取到的后台密码为：$message")
+                            } else {
+                                longToast(message)
+                            }
+                        })
+                    }
+                }
             }
         }
     }

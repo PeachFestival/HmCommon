@@ -1,6 +1,9 @@
 package com.hengmei.hm_common.utils
 
 import android.app.Activity
+import android.content.Context
+import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
 import android.text.TextUtils
 import com.allenliu.versionchecklib.core.http.HttpRequestMethod
 import com.allenliu.versionchecklib.utils.AppUtils
@@ -55,11 +58,18 @@ object UpdateUtils {
                     }else{
                         content = result.data.content
                     }
-                    callback(true,"开始更新")
-                    return UIData.create()
-                        .setDownloadUrl(result.data.apkOssUrl)
-                        .setContent(content)
-                        .setTitle(title)
+//                    判断版本号是否相同
+                    if(result.data.apkRevision == getVersionCode(context).toString() ){
+                        callback(false,"当前版本为最新版本")
+                        return null
+                    }else{
+                        callback(true,result.data.content)
+                        return UIData.create()
+                            .setDownloadUrl(result.data.apkOssUrl)
+                            .setContent(content)
+                            .setTitle(title)
+                    }
+
                 }
 
                 override fun onRequestVersionFailure(message: String?) {
@@ -72,6 +82,20 @@ object UpdateUtils {
     }
 
 
+    fun getVersionCode(sContext: Context): Int {
+        return try {
+            val packageInfo: PackageInfo =
+                sContext.getPackageManager()
+                    .getPackageInfo(
+                        sContext.getPackageName(),
+                        0
+                    )
+            packageInfo.versionCode
+        } catch (e: PackageManager.NameNotFoundException) {
+            e.printStackTrace()
+            0 // 默认值
+        }
+    }
 
 
 }

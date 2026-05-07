@@ -1,6 +1,6 @@
 package com.hengmei.hm_common.mmkv
 
-object DataRepository : MMKVOwner {
+object HMDataRepository : MMKVOwner {
   var isFirstLaunch by mmkvBool(default = true)
   var language by mmkvString(default = "zh")
   var isBan by mmkvInt(default = 0)
