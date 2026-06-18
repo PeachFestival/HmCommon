@@ -3,8 +3,6 @@ plugins {
     id 'org.jetbrains.kotlin.android'
 }
 
-apply from: 'build-publish.gradle'
-
 android {
     namespace 'com.hengmei.hm_common'
     compileSdk 34

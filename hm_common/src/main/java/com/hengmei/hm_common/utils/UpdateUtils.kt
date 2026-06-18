@@ -15,7 +15,7 @@ import com.google.gson.Gson
 import com.hengmei.hm_common.Bean.ApiResponse
 import org.w3c.dom.Text
 
-
+//2.1版本
 object UpdateUtils {
 
     // 根据链接获取更新包
