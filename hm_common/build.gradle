@@ -86,7 +86,7 @@ afterEvaluate {
                 from components.release
                 groupId = 'com.github.PeachFestival'
                 artifactId = 'HmCommon'
-                version = '2.3'
+                version = '2.4'
             }
         }
     }
