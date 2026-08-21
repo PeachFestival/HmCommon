@@ -362,43 +362,141 @@ class WifiSettingDialog : DialogFragment() {
     }
 
     private fun onWifiItemClick(wifi: IWifi) {
-        val ctx = context ?: return
         if (wifi.isConnected) {
-            // 已连接网络操作
-            val ipInfo = if (wifi.ip().isNotEmpty()) " (${wifi.ip()})" else ""
-            AlertDialog.Builder(ctx)
-                .setTitle(wifi.name())
-                .setMessage("${getString(R.string.hm_wifi_connected_tip)}$ipInfo")
-                .setPositiveButton(getString(R.string.hm_wifi_disconnect)) { _, _ ->
-                    wifiManager?.disConnectWifi()
-                    Toast.makeText(ctx, getString(R.string.hm_wifi_disconnecting), Toast.LENGTH_SHORT).show()
-                }
-                .setNegativeButton(getString(R.string.hm_wifi_forget)) { _, _ ->
-                    wifiManager?.removeWifi(wifi)
-                    Toast.makeText(ctx, getString(R.string.hm_wifi_forget_success), Toast.LENGTH_SHORT).show()
-                }
-                .setNeutralButton(getString(R.string.hm_wifi_cancel), null)
-                .show()
+            // 已连接网络操作弹窗
+            showConnectedActionDialog(wifi)
         } else if (wifi.isSaved) {
-            // 已保存网络
-            AlertDialog.Builder(ctx)
-                .setTitle(wifi.name())
-                .setMessage(getString(R.string.hm_wifi_saved_tip))
-                .setPositiveButton(getString(R.string.hm_wifi_connect)) { _, _ ->
-                    connectWifi(wifi, "")
-                }
-                .setNegativeButton(getString(R.string.hm_wifi_forget)) { _, _ ->
-                    wifiManager?.removeWifi(wifi)
-                    Toast.makeText(ctx, getString(R.string.hm_wifi_forget_success), Toast.LENGTH_SHORT).show()
-                }
-                .setNeutralButton(getString(R.string.hm_wifi_cancel), null)
-                .show()
+            // 已保存网络操作弹窗
+            showSavedActionDialog(wifi)
         } else if (!wifi.isEncrypt) {
             // 开放无密码网络
             connectWifi(wifi, "")
         } else {
             // 加密网络，弹出密码输入框
             showPasswordDialog(wifi)
+        }
+    }
+
+    /**
+     * 已连接网络的操作弹窗（统一设计风格）
+     */
+    private fun showConnectedActionDialog(wifi: IWifi) {
+        val ctx = context ?: return
+        val dialog = Dialog(ctx)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.dialog_wifi_action)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        val tvTitle = dialog.findViewById<TextView>(R.id.tv_action_title)
+        val tvMessage = dialog.findViewById<TextView>(R.id.tv_action_message)
+        val btnCancel = dialog.findViewById<Button>(R.id.btn_action_cancel)
+        val btnForget = dialog.findViewById<Button>(R.id.btn_action_forget)
+        val btnPrimary = dialog.findViewById<Button>(R.id.btn_action_primary)
+
+        tvTitle.text = wifi.name()
+        val ipInfo = if (wifi.ip().isNotEmpty()) " (${wifi.ip()})" else ""
+        tvMessage.text = "${getString(R.string.hm_wifi_connected_tip)}$ipInfo"
+
+        btnPrimary.text = getString(R.string.hm_wifi_disconnect)
+
+        // 取消
+        btnCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        // 忘记网络
+        btnForget.setOnClickListener {
+            dialog.dismiss()
+            wifiManager?.removeWifi(wifi)
+            Toast.makeText(ctx, getString(R.string.hm_wifi_forget_success), Toast.LENGTH_SHORT).show()
+            startScan()
+        }
+
+        // 断开连接（同时清除网络配置，防止系统内核自动重连）
+        btnPrimary.setOnClickListener {
+            dialog.dismiss()
+            wifiManager?.disConnectWifi()
+            wifiManager?.removeWifi(wifi)
+            Toast.makeText(ctx, getString(R.string.hm_wifi_disconnecting), Toast.LENGTH_SHORT).show()
+            startScan()
+        }
+
+        dialog.show()
+
+        // 动态适配屏幕尺寸
+        applyCustomDialogWindowLayout(ctx, dialog)
+    }
+
+    /**
+     * 已保存网络的操作弹窗（统一设计风格）
+     */
+    private fun showSavedActionDialog(wifi: IWifi) {
+        val ctx = context ?: return
+        val dialog = Dialog(ctx)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.dialog_wifi_action)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        val tvTitle = dialog.findViewById<TextView>(R.id.tv_action_title)
+        val tvMessage = dialog.findViewById<TextView>(R.id.tv_action_message)
+        val btnCancel = dialog.findViewById<Button>(R.id.btn_action_cancel)
+        val btnForget = dialog.findViewById<Button>(R.id.btn_action_forget)
+        val btnPrimary = dialog.findViewById<Button>(R.id.btn_action_primary)
+
+        tvTitle.text = wifi.name()
+        tvMessage.text = getString(R.string.hm_wifi_saved_tip)
+
+        btnPrimary.text = getString(R.string.hm_wifi_connect)
+
+        // 取消
+        btnCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        // 忘记网络
+        btnForget.setOnClickListener {
+            dialog.dismiss()
+            wifiManager?.removeWifi(wifi)
+            Toast.makeText(ctx, getString(R.string.hm_wifi_forget_success), Toast.LENGTH_SHORT).show()
+            startScan()
+        }
+
+        // 连接
+        btnPrimary.setOnClickListener {
+            dialog.dismiss()
+            connectWifi(wifi, "")
+        }
+
+        dialog.show()
+
+        // 动态适配屏幕尺寸
+        applyCustomDialogWindowLayout(ctx, dialog)
+    }
+
+    /**
+     * 统一弹窗尺寸计算与屏幕适配
+     */
+    private fun applyCustomDialogWindowLayout(ctx: Context, dialog: Dialog) {
+        dialog.window?.let { win ->
+            val dm = ctx.resources.displayMetrics
+            val density = dm.density
+            val screenWidth = dm.widthPixels
+            val screenHeight = dm.heightPixels
+            val isLandscape = screenWidth > screenHeight
+            val targetWidth = if (isLandscape) {
+                (screenWidth * 0.55f).toInt().coerceIn(
+                    (420 * density).toInt().coerceAtMost(screenWidth),
+                    (600 * density).toInt().coerceAtMost(screenWidth)
+                )
+            } else {
+                (screenWidth * 0.90f).toInt().coerceIn(
+                    (320 * density).toInt().coerceAtMost(screenWidth),
+                    (480 * density).toInt().coerceAtMost(screenWidth)
+                )
+            }
+            win.setLayout(targetWidth, WindowManager.LayoutParams.WRAP_CONTENT)
+            win.setGravity(Gravity.CENTER)
+            win.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         }
     }
 
@@ -442,28 +540,8 @@ class WifiSettingDialog : DialogFragment() {
 
         dialog.show()
 
-        // 动态适配横竖屏与大屏尺寸，防止密码框和按钮挤压折行
-        dialog.window?.let { win ->
-            val dm = ctx.resources.displayMetrics
-            val density = dm.density
-            val screenWidth = dm.widthPixels
-            val screenHeight = dm.heightPixels
-            val isLandscape = screenWidth > screenHeight
-            val targetWidth = if (isLandscape) {
-                (screenWidth * 0.55f).toInt().coerceIn(
-                    (420 * density).toInt().coerceAtMost(screenWidth),
-                    (600 * density).toInt().coerceAtMost(screenWidth)
-                )
-            } else {
-                (screenWidth * 0.90f).toInt().coerceIn(
-                    (320 * density).toInt().coerceAtMost(screenWidth),
-                    (480 * density).toInt().coerceAtMost(screenWidth)
-                )
-            }
-            win.setLayout(targetWidth, WindowManager.LayoutParams.WRAP_CONTENT)
-            win.setGravity(Gravity.CENTER)
-            win.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        }
+        // 动态适配横竖屏与大屏尺寸
+        applyCustomDialogWindowLayout(ctx, dialog)
     }
 
     private fun connectWifi(wifi: IWifi, pwd: String = "") {
