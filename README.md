@@ -12,7 +12,7 @@
 ### 1.2 app 下 build.gradle 文件添加
 
 ```groovy
-    implementation 'com.github.PeachFestival:HmCommon:2.2' // 当前最新版本 2.2
+    implementation 'com.github.PeachFestival:HmCommon:2.3' // 当前最新版本 2.3
 ```
 
 ---
