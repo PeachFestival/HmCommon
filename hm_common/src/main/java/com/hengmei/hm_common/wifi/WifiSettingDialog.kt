@@ -101,14 +101,14 @@ class WifiSettingDialog : DialogFragment() {
             val screenHeight = dm.heightPixels
             val isLandscape = screenWidth > screenHeight
             val targetWidth = if (isLandscape) {
-                (screenWidth * 0.65f).toInt().coerceIn(
-                    (380 * density).toInt().coerceAtMost(screenWidth),
-                    (650 * density).toInt().coerceAtMost(screenWidth)
+                (screenWidth * 0.72f).toInt().coerceIn(
+                    (450 * density).toInt().coerceAtMost(screenWidth),
+                    (720 * density).toInt().coerceAtMost(screenWidth)
                 )
             } else {
-                (screenWidth * 0.9f).toInt().coerceIn(
-                    (300 * density).toInt().coerceAtMost(screenWidth),
-                    (500 * density).toInt().coerceAtMost(screenWidth)
+                (screenWidth * 0.92f).toInt().coerceIn(
+                    (320 * density).toInt().coerceAtMost(screenWidth),
+                    (540 * density).toInt().coerceAtMost(screenWidth)
                 )
             }
             window.setLayout(targetWidth, WindowManager.LayoutParams.WRAP_CONTENT)
@@ -450,14 +450,14 @@ class WifiSettingDialog : DialogFragment() {
             val screenHeight = dm.heightPixels
             val isLandscape = screenWidth > screenHeight
             val targetWidth = if (isLandscape) {
-                (screenWidth * 0.5f).toInt().coerceIn(
-                    (380 * density).toInt().coerceAtMost(screenWidth),
-                    (540 * density).toInt().coerceAtMost(screenWidth)
+                (screenWidth * 0.55f).toInt().coerceIn(
+                    (420 * density).toInt().coerceAtMost(screenWidth),
+                    (600 * density).toInt().coerceAtMost(screenWidth)
                 )
             } else {
-                (screenWidth * 0.88f).toInt().coerceIn(
-                    (300 * density).toInt().coerceAtMost(screenWidth),
-                    (450 * density).toInt().coerceAtMost(screenWidth)
+                (screenWidth * 0.90f).toInt().coerceIn(
+                    (320 * density).toInt().coerceAtMost(screenWidth),
+                    (480 * density).toInt().coerceAtMost(screenWidth)
                 )
             }
             win.setLayout(targetWidth, WindowManager.LayoutParams.WRAP_CONTENT)

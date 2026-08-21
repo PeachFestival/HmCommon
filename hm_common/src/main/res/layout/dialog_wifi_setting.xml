@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:background="@drawable/hm_dialog_wifi_bg"
     android:orientation="vertical"
-    android:padding="20dp">
+    android:padding="24dp">
 
     <!-- 顶部标题栏 -->
     <RelativeLayout
@@ -20,7 +20,7 @@
             android:layout_centerVertical="true"
             android:text="@string/hm_wifi_title"
             android:textColor="#333333"
-            android:textSize="18sp"
+            android:textSize="22sp"
             android:textStyle="bold" />
 
         <LinearLayout
@@ -35,25 +35,27 @@
                 android:id="@+id/switch_wifi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp" />
+                android:layout_marginEnd="16dp"
+                android:scaleX="1.25"
+                android:scaleY="1.25" />
 
             <ImageView
                 android:id="@+id/iv_refresh"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginEnd="8dp"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:layout_marginEnd="12dp"
                 android:background="@drawable/hm_item_wifi_bg"
                 android:contentDescription="@string/hm_wifi_refresh"
-                android:padding="4dp"
+                android:padding="6dp"
                 android:src="@drawable/hm_ic_wifi_refresh" />
 
             <ImageView
                 android:id="@+id/iv_close"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
                 android:background="@drawable/hm_item_wifi_bg"
                 android:contentDescription="@string/hm_wifi_close"
-                android:padding="4dp"
+                android:padding="6dp"
                 android:src="@drawable/hm_ic_wifi_close" />
         </LinearLayout>
     </RelativeLayout>
@@ -62,8 +64,8 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="10dp"
         android:background="#E0E0E0" />
 
     <!-- 扫描中进度条 -->
@@ -71,7 +73,7 @@
         android:id="@+id/pb_scanning"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
-        android:layout_height="4dp"
+        android:layout_height="6dp"
         android:indeterminate="true"
         android:visibility="gone" />
 
@@ -79,18 +81,18 @@
     <TextView
         android:id="@+id/tv_empty_tip"
         android:layout_width="match_parent"
-        android:layout_height="160dp"
+        android:layout_height="180dp"
         android:gravity="center"
         android:text="@string/hm_wifi_empty_disabled"
         android:textColor="#999999"
-        android:textSize="14sp"
+        android:textSize="17sp"
         android:visibility="gone" />
 
     <!-- WiFi 列表 -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_wifi_list"
         android:layout_width="match_parent"
-        android:layout_height="320dp"
+        android:layout_height="360dp"
         android:fadeScrollbars="false"
         android:overScrollMode="never"
         android:scrollbars="vertical" />
