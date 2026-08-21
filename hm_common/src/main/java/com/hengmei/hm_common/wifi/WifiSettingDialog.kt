@@ -397,19 +397,14 @@ class WifiSettingDialog : DialogFragment() {
         val ipInfo = if (wifi.ip().isNotEmpty()) " (${wifi.ip()})" else ""
         tvMessage.text = "${getString(R.string.hm_wifi_connected_tip)}$ipInfo"
 
+        // 隐藏多余的忘记网络按钮，合成一个【断开连接】
+        btnForget.visibility = View.GONE
+
         btnPrimary.text = getString(R.string.hm_wifi_disconnect)
 
         // 取消
         btnCancel.setOnClickListener {
             dialog.dismiss()
-        }
-
-        // 忘记网络
-        btnForget.setOnClickListener {
-            dialog.dismiss()
-            wifiManager?.removeWifi(wifi)
-            Toast.makeText(ctx, getString(R.string.hm_wifi_forget_success), Toast.LENGTH_SHORT).show()
-            startScan()
         }
 
         // 断开连接（同时清除网络配置，防止系统内核自动重连）
