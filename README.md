@@ -1,41 +1,41 @@
 # HM_COMMON
 
-## 1.项目引用
+## 1. 项目引用
 
-### 1.1 项目build.gradle文件添加
+### 1.1 项目 build.gradle 文件添加
 
 ```groovy
     mavenCentral()
     maven { url 'https://jitpack.io' }
 ```
 
-### 1.2 app下build.gradle文件添加
+### 1.2 app 下 build.gradle 文件添加
 
 ```groovy
-    implementation 'com.github.PeachFestival:HmCommon:version_code'//version_code为最新tag 当前最新版本1.1.3
+    implementation 'com.github.PeachFestival:HmCommon:2.2' // 当前最新版本 2.2
 ```
 
 ---
 
-## 2.初始化引用 [查看 MyApplication](./app/src/main/java/com/hengmei/testdemo/MyApplication.kt)
+## 2. 初始化引用 [查看 MyApplication](./app/src/main/java/com/hengmei/testdemo/MyApplication.kt)
 
-### 2.1 全局初始化,在APP中Application类中添加初始化信息。
+### 2.1 全局初始化，在 APP 的 Application 类中添加初始化代码
 
-```Java
-    CommonLibInit().init(this);
+```kotlin
+    CommonLibInit().init(this)
 ```
 
-### 2.2 添加MMKV KTX相关配置
+### 2.2 添加 MMKV KTX 相关配置
 
-```Java
+```kotlin
     val dir = filesDir.absolutePath + "/mmkv_hengmei"
     MMKV.initialize(this, dir)
     MMKVOwner.default = MMKV.defaultMMKV()
 ```
 
-### 2.3 在AndroidManifest.xml 中 <application/>标签下添加 
+### 2.3 在 AndroidManifest.xml 中 `<application/>` 标签下添加
 
-```html
+```xml
     <provider  
      android:name="androidx.startup.InitializationProvider"  
      android:authorities="${applicationId}.androidx-startup"  
@@ -46,265 +46,269 @@
     </provider>
 ```
 
-&emsp;注：如果发现找不到 InitializationProvider ，则需要在项目中添加依赖 
+&emsp;注：如果发现找不到 InitializationProvider ，则需要在项目中添加依赖：
 
-```java
+```groovy
     implementation "androidx.startup:startup-runtime:1.1.1"
 ```
 
 ---
 
-## 3.功能使用
+## 3. 功能使用
 
 ### 3.1 扩展函数
 
-```java
-    getAndroidId() //获取仪器设备号
-    byteToInt(byte1,byte2)//无符号byte转int 
-    log(str)//全局日志弹窗
+```kotlin
+    getAndroidId() // 获取仪器设备号
+    byteToInt(byte1, byte2) // 无符号 byte 转 int 
+    log(str) // 全局日志弹窗
 ```
 
-### 3.2 全局通信,功能强大,童叟无欺
+### 3.2 全局通信 (FlowBus)
 
-```java
-    postValue(EventMessage(100, value))//发送，任意类型value
-     /**
-         接收
+```kotlin
+    postValue(EventMessage(100, value)) // 发送任意类型 value
+
+    /**
+     * 接收
      */
     observeEvent {
        if (it.key == 100) {
-          log("接收内容 "+it.message)
+          log("接收内容 " + it.message)
        }
     }
 ```
 
-### 3.3 MMKV 可直接调用操作。
+### 3.3 MMKV 键值对存储
 
-```java
+```kotlin
     val testUser = DataRepository.testUser 
     DataRepository.testUser = "user"
 ```
 
-### 3.4 国际化，加界面重新加载。操作会跳转你的首页Activity
+### 3.4 国际化多语言切换
 
-```java
-    Locale.SIMPLIFIED_CHINESE //中文
-    Locale.ENGLISH //英文
-    LocaleHelper.getInstance().language(local)
-    
-    val intent = baseContext.packageManager.getLaunchIntentForPackage(baseContext.packageName)
-    intent!!.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-    startActivity(intent)
+本库支持中文、英文、繁体中文等多语言动态切换及持久化：
+
+```kotlin
+    // 切换语言
+    LocaleHelper.getInstance().language(Locale.SIMPLIFIED_CHINESE).apply(this@MainActivity) // 简体中文
+    LocaleHelper.getInstance().language(Locale.ENGLISH).apply(this@MainActivity) // 英文
+    LocaleHelper.getInstance().language(Locale.TRADITIONAL_CHINESE).apply(this@MainActivity) // 繁体中文
+```
+
+在 Activity 中重写 `attachBaseContext` 以确保资源配置生效：
+```kotlin
+    override fun attachBaseContext(newBase: Context) {
+        super.attachBaseContext(LocaleHelper.getInstance().updateContext(newBase))
+    }
 ```
 
 ### 3.5 应用防止二次连点
 
-```java
+```kotlin
     override fun onClick(v: View?) {
-            super.onClick(v)
-          if(AntiShake.check(v)){
-                return
-          }
+        super.onClick(v)
+        if (AntiShake.check(v)) {
+            return
+        }
     }
 ```
 
-### 3.6 获取设备SD卡位置，也是U盘位置
+### 3.6 获取设备 SD 卡 / U 盘路径
 
-```java
-     var sdPath = FileUtils.getSDPath()
+```kotlin
+    val sdPath = FileUtils.getSDPath()
 ```
 
-### 3.7 获取路径下所有的video文件
+### 3.7 获取指定路径下所有的视频文件
 
-```java
-    val imgPath: String = FileUrils.getSDPath() + "/Movies"
+```kotlin
+    val videoPath: String = FileUtils.getSDPath() + "/Movies"
     val files: ArrayList<File> = FileUtils.getFileName(videoPath)
 ```
 
-### 3.8 Logistic 拟合多次曲线，logisticAB ，logisticABC，logisticABCD。
-### &emsp;分别对应计算曲线 getLogisticValueAB, getLogisticValueABC, getLogisticValueABCD 
+### 3.8 Logistic 拟合多次曲线
 
-```java
-     //对应y = a+bx
-     var map: Map<String, Double> = LogisticUtils.logisticAB(xList,yList)
-     //取值map.get("valueA") //valueA valueB valueC valueD valueR
-     
-     getLogisticValueAB() //传入对应参数，对应计算公式
+```kotlin
+    // 对应 y = a + bx
+    val map: Map<String, Double> = LogisticUtils.logisticAB(xList, yList)
+    // 取值: map["valueA"], map["valueB"], map["valueC"], map["valueD"], map["valueR"]
+    
+    getLogisticValueAB() // 传入对应参数，对应计算公式
 ```
 
-### 3.9 NumberUtils 对应 加减乘除操作
+### 3.9 NumberUtils 高精度计算
 
-```java
-    additionStr("1","1") //小数相加
-    subtractionStr()//小数相减，参数为空当0处理
-    multiplicationStr()//乘法保留小数位数，参数为空不运算
-    divisionStr()//除法保留小数位数，参数为空不运算
-    formatStr() //将double转换指定小数位数
+```kotlin
+    additionStr("1", "1") // 小数相加
+    subtractionStr() // 小数相减，参数为空当 0 处理
+    multiplicationStr() // 乘法保留小数位数，参数为空不运算
+    divisionStr() // 除法保留小数位数，参数为空不运算
+    formatStr() // 将 double 转换指定小数位数
 ```
 
-### 3.10 仪器更新
+### 3.10 仪器 OTA / 应用更新
 
-```java
+```kotlin
     /**
-    - @param mUrl 请求地址
-    - @param updateApk 更新包的标识
-    - @param acCode 仪器编号
-    - @param title 更新标题
-    - @param context activity
-    - @param callback 回调函数
-      */
-    UpdateUtils.getUpdateUrl("http://manage.hengmeierp.com/api/project/produceApkRela/getByApp","e4fec07c-8917-44ca-99f5-582daa869f02","eb477b2f48026fda","更新", activity!!, callback = { isUpdate, message ->
-          if (isUpdate!!) {
-              // 调用回调返回错误信息
-              println("开始更新: $message")
-          } else {
-              // 调用回调返回响应数据
-              println("更新失败: $message")
-          }
-      })
+     * @param mUrl 请求地址
+     * @param updateApk 更新包标识
+     * @param acCode 仪器编号
+     * @param title 更新标题
+     * @param context Activity 上下文
+     * @param callback 回调函数
+     */
+    UpdateUtils.getUpdateUrl(
+        "http://manage.hengmeierp.com/api/project/produceApkRela/getByApp",
+        "e4fec07c-8917-44ca-99f5-582daa869f02",
+        getAndroidId(),
+        "更新",
+        this@MainActivity,
+        callback = { isUpdate, message ->
+            if (isUpdate == true) {
+                println("开始更新: $message")
+            } else {
+                println("更新失败: $message")
+            }
+        }
+    )
 ```
 
 ### 3.11 仪器 WIFI 连接操作
 
-#### &emsp;3.11.1 加入对应权限
+#### &emsp;3.11.1 【推荐】新版 WiFi 设置弹窗组件（支持国际化多语言与状态监听）
 
-```html
+`WifiSettingUtils.showWifiDialog` 提供了内置的 WiFi 设置弹窗组件，包含 WiFi 列表扫描、状态展示、密码连接、忘记网络、断开连接等完整功能。弹窗已全量适配横屏工业仪器分辨率，并支持简体中文、英文、繁体中文等国际化多语言。
+
+##### 1. 动态权限申请（在 Activity 创建时调用）
+```kotlin
+    // 启动时自动检查并申请 WiFi 及定位相关权限
+    WifiSettingUtils.checkAndRequestWifiPermissions(this@MainActivity)
+```
+
+##### 2. 基础调用（一行业务代码）
+```kotlin
+    // 打开 WiFi 设置弹窗
+    WifiSettingUtils.showWifiDialog(this@MainActivity)
+```
+
+##### 3. 带连接状态监听回调（Kotlin 推荐）
+```kotlin
+    WifiSettingUtils.showWifiDialog(
+        activity = this@MainActivity,
+        onConnected = { wifi ->
+            // 连接成功！wifi 包含 SSID、IP、MAC 等详细信息
+            val name = wifi?.name() ?: ""
+            val ip = wifi?.ip() ?: ""
+            println("WiFi 连接成功: $name, 分配 IP: $ip")
+        },
+        onDisconnected = {
+            // 网络已断开
+            println("WiFi 已断开连接")
+        },
+        onTimeout = {
+            // 连接超时（如密码错误或信号差）
+            println("WiFi 连接超时")
+        }
+    )
+```
+
+##### 4. 接口监听方式（Java 调用友好）
+```java
+    WifiSettingUtils.showWifiDialogWithListener(MainActivity.this, new WifiSettingUtils.OnWifiDialogListener() {
+        @Override
+        public void onConnected(@Nullable IWifi wifi) {
+            if (wifi != null) {
+                System.out.println("WiFi 连接成功: " + wifi.name() + ", IP: " + wifi.ip());
+            }
+        }
+
+        @Override
+        public void onDisconnected() {
+            System.out.println("WiFi 已断开");
+        }
+
+        @Override
+        public void onConnectTimeout() {
+            System.out.println("WiFi 连接超时");
+        }
+    });
+```
+
+##### 5. 国际化多语言支持说明
+弹窗内部文字全部引用 `@string/hm_wifi_...` 资源，随系统语言或 `LocaleHelper` 动态切换：
+- 默认/简体中文：`values/strings.xml`
+- 英文 (English)：`values-en/strings.xml`
+- 繁体中文 (繁體中文)：`values-zh-rTW/strings.xml`
+
+---
+
+#### &emsp;3.11.2 【传统方式】跳转系统 WiFi 设置界面（通过无障碍服务悬浮窗遮挡）
+
+##### 1. 加入对应权限
+```xml
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 ```
 
-#### &emsp;3.11.2 由于权限直接请求无法请求成功，需要主动让用户从设置授予权限，以下是跳转设置代码，建议放到 setting界面 onStart() 或者 onResume() 方法体中。因为要调用startMaskService()来隐藏顶部悬浮窗，也可以手动调用 WifiSettingUtils.startMaskService（）来关闭顶部悬浮窗
-
-```java
-    // 检查应用是否有允许在上层权限
+##### 2. 检查并引导开启悬浮窗权限
+```kotlin
     override fun onResume() {
-            super.onResume()
-            WifiSettingUtils.checkUpPermission(Activity)
+        super.onResume()
+        WifiSettingUtils.checkUpPermission(this)
     }
 ```
 
-#### &emsp;3.11.3 权限获取成功后，需要在清单文件配置service。
-
-```html
- <service 
+##### 3. 在 AndroidManifest.xml 中配置无障碍服务 Service
+```xml
+    <service 
         android:name="com.hengmei.hm_common.window.FloatBallService"
         android:exported="true"
         android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
-    <intent-filter>
-        <action android:name="android.accessibilityservice.AccessibilityService" />
-            </intent-filter>
-            <meta-data
-                android:name="android.accessibilityservice"
-                android:resource="@xml/accessibilityservice" />
-</service>
+        <intent-filter>
+            <action android:name="android.accessibilityservice.AccessibilityService" />
+        </intent-filter>
+        <meta-data
+            android:name="android.accessibilityservice"
+            android:resource="@xml/accessibilityservice" />
+    </service>
 ```
 
-#### &emsp;3.11.4 @xml/accessibilityservice 文件代码为以下 common_hint 是对应无障碍服务里面提示文字，随便输入即可,用户不可见。
-
-```html
-    <?xml version="1.0" encoding="utf-8"?>
-    <accessibility-service
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:accessibilityFeedbackType="feedbackGeneric"
-        android:description="@string/common_hint"/>
+##### 4. 调用系统设置跳转方法
+```kotlin
+    WifiSettingUtils.setWifi(this, "返回", "确认")
 ```
 
-#### &emsp;3.11.5 最后调用执行 ,如果是第一次安装或者 覆盖安装，会跳转设置，要求用户开启无障碍选项
+---
 
-```java
-    WifiSettingUtils.setWifi(context,backStr,confirmStr)
-```
+### 3.12 多层级展开 RecyclerView（支持无限层级）
 
-### 3.12 多层级展开recyclerview 支持无限层级
-```java
-        //0级列表测试数据
-        val levelZero = mutableListOf<ExtendListData>()
-        levelZero.add(ExtendListData(level = 0,name = "零级0"))
-        levelZero.add(ExtendListData(level = 0,name = "零级1"))
+```kotlin
+    val levelZero = mutableListOf<ExtendListData>()
+    levelZero.add(ExtendListData(level = 0, name = "零级0"))
+    levelZero.add(ExtendListData(level = 0, name = "零级1"))
 
-        //1级列表测试数据
-        val level0One = mutableListOf<ExtendListData>()
-        level0One.add(ExtendListData(level = 1,name = "一级0"))
-        level0One.add(ExtendListData(level = 1,name = "一级1"))
-        val level1One = mutableListOf<ExtendListData>()
-        level1One.add(ExtendListData(level = 1,name = "一级0"))
-        level1One.add(ExtendListData(level = 1,name = "一级1"))
-
-        //2级列表测试数据
-        val level00Two = mutableListOf<ExtendListData>()
-        level00Two.add(ExtendListData(level = 2,name = "二级0"))
-        level00Two.add(ExtendListData(level = 2,name = "二级1"))
-        val level01Two = mutableListOf<ExtendListData>()
-        level01Two.add(ExtendListData(level = 2,name = "二级0"))
-        level01Two.add(ExtendListData(level = 2,name = "二级1"))
-        val level10Two = mutableListOf<ExtendListData>()
-        level10Two.add(ExtendListData(level = 2,name = "二级0"))
-        level10Two.add(ExtendListData(level = 2,name = "二级1"))
-        val level11Two = mutableListOf<ExtendListData>()
-        level11Two.add(ExtendListData(level = 2,name = "二级0", data = MyData()))
-        level11Two.add(ExtendListData(level = 2,name = "二级1", data = MyData()))
-        
-        //...n级列表测试数据
-        //......
-
-        
-        //recyclerview使用ExtendListAdapter即可
-        binding.rvView.layoutManager = LinearLayoutManager(this)
-        binding.rvView.adapter =
-            ExtendListAdapter(this)
-                //0级
-                .addLevel0Data(levelZero)
-                //1级
-                .addLevelOtherData(levelZero[0], level0One)
-                .addLevelOtherData(levelZero[1], level1One)
-                //2级
-                .addLevelOtherData(level0One[0], level00Two)
-                .addLevelOtherData(level0One[1], level01Two)
-                .addLevelOtherData(level1One[0], level10Two)
-                //自定义UI和点击事件
-                .addLevelOtherData(level1One[1], level11Two, object : OnBindExtendView(R.layout.item_extend_view) {
-                    override fun onViewBind(view: View, extendListData: ExtendListData) {//UI绑定
-                        val tvText = view.findViewById<TextView>(R.id.tv_name)
-                        tvText.text = extendListData.name
-                        tvText.setOnClickListener{
-                            //do nothing
-                        }
-                    }
-
-                    override fun onViewClick(view: View, extendListData: ExtendListData) {//UI点击
-                        val myData : MyData = extendListData.data as MyData
-                        if (extendListData.isExtend) {//展开状态
-                            //do nothing
-                        } else {//收起状态
-                            //do nothing
-                        }
-                    }
-                })
-                .build()
+    binding.rvView.layoutManager = LinearLayoutManager(this)
+    binding.rvView.adapter = ExtendListAdapter(this)
+        .addLevel0Data(levelZero)
+        .build()
 ```
 
 ### 3.13 闪退日志保存到本地
-#### &emsp;3.13.1 在APP中Application类中添加 [查看 MyApplication](./app/src/main/java/com/hengmei/testdemo/MyApplication.kt)
-```java
-    CrashHandler.getInstance(applicationContext).setCrashLogDir(getCrashLogDir())//getCrashLogDir()为日志文件存储路径
-```
 
-#### &emsp;3.13.2 可在CrashHandler.java文件中添加更多需要保存到日志中的信息 方便定位错误&emsp;[查看CrashHandler](./hm_common/src/main/java/com/hengmei/hm_common/crashlog/CrashHandler.java)
+```kotlin
+    // 在 Application 中初始化
+    CrashHandler.getInstance(applicationContext).setCrashLogDir(getCrashLogDir())
+```
 
 ### 3.14 获取后台动态密码
 
-```java
-    /**
-    - @param context activity
-    - @param callback 回调函数
-      */
-    BackagePasswordUtils.getBackagePassword(this,callback = { isSuccess, message ->
-    if (isSuccess) {
-        longToast("获取到的后台密码为：$message")
-    } else {
-        longToast(message)
-    }
-})
+```kotlin
+    BackagePasswordUtils.getBackagePassword(this, callback = { isSuccess, message ->
+        if (isSuccess) {
+            longToast("获取到的后台密码为：$message")
+        } else {
+            longToast(message)
+        }
+    })
 ```
-
-
-

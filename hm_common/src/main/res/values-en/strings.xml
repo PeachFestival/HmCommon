@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="plugin_locale_language_title_auto">Auto</string>
+
+    <!-- WiFi Setting Strings (English) -->
+    <string name="hm_wifi_title">Wi-Fi Settings</string>
+    <string name="hm_wifi_refresh">Refresh</string>
+    <string name="hm_wifi_close">Close</string>
+    <string name="hm_wifi_empty_disabled">Wi-Fi is turned off. Turn it on to scan available networks</string>
+    <string name="hm_wifi_empty_searching">Scanning for available networks...</string>
+    <string name="hm_wifi_empty_none">No available networks found</string>
+    <string name="hm_wifi_connected_tip">Currently connected to this network</string>
+    <string name="hm_wifi_saved_tip">Saved network</string>
+    <string name="hm_wifi_disconnect">Disconnect</string>
+    <string name="hm_wifi_forget">Forget Network</string>
+    <string name="hm_wifi_cancel">Cancel</string>
+    <string name="hm_wifi_connect">Connect</string>
+    <string name="hm_wifi_pwd_dialog_title">Connect to Wi-Fi</string>
+    <string name="hm_wifi_pwd_ssid_prefix">Wi-Fi: %1$s</string>
+    <string name="hm_wifi_pwd_hint">Enter password</string>
+    <string name="hm_wifi_pwd_show">Show password</string>
+    <string name="hm_wifi_pwd_length_error">Password must be at least 8 characters</string>
+    <string name="hm_wifi_connecting">Connecting...</string>
+    <string name="hm_wifi_disconnecting">Disconnecting...</string>
+    <string name="hm_wifi_forget_success">Network configuration removed</string>
+    <string name="hm_wifi_timeout_tip">Connection timed out, please check the password and try again</string>
+
+    <!-- WiFi Status Strings -->
+    <string name="hm_wifi_status_connected">Connected</string>
+    <string name="hm_wifi_status_connecting">Connecting...</string>
+    <string name="hm_wifi_status_authenticating">Authenticating...</string>
+    <string name="hm_wifi_status_obtaining_ip">Obtaining IP address...</string>
+    <string name="hm_wifi_status_pwd_error">Incorrect password</string>
+    <string name="hm_wifi_status_saved">Saved</string>
+    <string name="hm_wifi_status_fail">Connection failed</string>
+</resources>

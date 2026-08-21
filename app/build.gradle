@@ -75,5 +75,38 @@ dependencies {
 
 //    implementation 'com.github.PeachFestival:HmCommon:1.0.5'
 
+}
 
+// 注册标准 Gradle Task，可在 Android Studio 右侧 Gradle 面板直接双击运行
+tasks.register('buildSystemApk') {
+    group = 'build'
+    description = '一键编译并生成全志/卓策系统签名包 (Platform Key)'
+    dependsOn 'assembleDebug'
+
+    doLast {
+        def signJar = file("${rootDir}/sign/signapk.jar")
+        def keyFile = file("${rootDir}/sign/platform.pk8")
+        def certFile = file("${rootDir}/sign/platform.x509.pem")
+        def inputApk = file("${buildDir}/outputs/apk/debug/app-debug.apk")
+        def outputApk = file("${buildDir}/outputs/apk/debug/app-debug-system.apk")
+
+        if (signJar.exists() && keyFile.exists() && certFile.exists() && inputApk.exists()) {
+            println "========================================================="
+            println "正在进行系统签名 (Platform Key)..."
+            println "输入文件: " + inputApk.absolutePath
+            println "输出文件: " + outputApk.absolutePath
+            
+            exec {
+                commandLine 'java', '-jar', signJar.absolutePath, 'sign',
+                        '--key', keyFile.absolutePath,
+                        '--cert', certFile.absolutePath,
+                        '--out', outputApk.absolutePath,
+                        inputApk.absolutePath
+            }
+            println "[成功] 系统包已生成: " + outputApk.absolutePath
+            println "========================================================="
+        } else {
+            println "[错误] 签名所需文件不存在，请检查 sign/ 目录及 app-debug.apk"
+        }
+    }
 }

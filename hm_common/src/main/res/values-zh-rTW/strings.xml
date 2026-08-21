@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="plugin_locale_language_title_auto">自動</string>
+
+    <!-- WiFi 設置繁體中文 (Traditional Chinese) -->
+    <string name="hm_wifi_title">WLAN 設定</string>
+    <string name="hm_wifi_refresh">重新整理</string>
+    <string name="hm_wifi_close">關閉</string>
+    <string name="hm_wifi_empty_disabled">WLAN 已關閉，請開啟以搜尋可用網路</string>
+    <string name="hm_wifi_empty_searching">正在搜尋附近的可用網路...</string>
+    <string name="hm_wifi_empty_none">未找到附近的可用網路</string>
+    <string name="hm_wifi_connected_tip">目前已連線至此網路</string>
+    <string name="hm_wifi_saved_tip">已儲存的網路</string>
+    <string name="hm_wifi_disconnect">中斷連線</string>
+    <string name="hm_wifi_forget">清除網路</string>
+    <string name="hm_wifi_cancel">取消</string>
+    <string name="hm_wifi_connect">連線</string>
+    <string name="hm_wifi_pwd_dialog_title">連線至 WLAN</string>
+    <string name="hm_wifi_pwd_ssid_prefix">WiFi 名稱: %1$s</string>
+    <string name="hm_wifi_pwd_hint">請輸入密碼</string>
+    <string name="hm_wifi_pwd_show">顯示密碼</string>
+    <string name="hm_wifi_pwd_length_error">密碼長度不能少於8位</string>
+    <string name="hm_wifi_connecting">正在連線...</string>
+    <string name="hm_wifi_disconnecting">正在中斷連線...</string>
+    <string name="hm_wifi_forget_success">已清除該網路配置</string>
+    <string name="hm_wifi_timeout_tip">連線逾時，請檢查密碼後重試</string>
+
+    <!-- WiFi 狀態文字 -->
+    <string name="hm_wifi_status_connected">已連線</string>
+    <string name="hm_wifi_status_connecting">開始連線...</string>
+    <string name="hm_wifi_status_authenticating">身份驗證中...</string>
+    <string name="hm_wifi_status_obtaining_ip">取得IP位址中...</string>
+    <string name="hm_wifi_status_pwd_error">密碼錯誤</string>
+    <string name="hm_wifi_status_saved">已儲存</string>
+    <string name="hm_wifi_status_fail">連線失敗</string>
+</resources>
